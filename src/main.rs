@@ -13,6 +13,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let config = OpenAIConfig::new().with_api_key(std::fs::read_to_string("./token").expect("Unable to load token"));
     let mut client = Client::with_config(config);
 
+    // let poem = PoemGenBuilder::new().with_prompt("Poem about a mean robot".to_string()).generate(&mut client).await?;
     let poem = PoemGenBuilder::new().generate(&mut client).await?;
     // Do image generation
     #[cfg(feature = "img_gen")]

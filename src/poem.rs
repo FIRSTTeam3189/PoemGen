@@ -22,6 +22,14 @@ impl PoemGenBuilder {
             title_ai: AiType::GPT3_5_instruct,
         }
     }
+    pub fn set_prompt(&mut self, prompt: String) {
+        self.prompt = prompt;
+    }
+
+    pub fn with_prompt(mut self, prompt: String) -> Self {
+        self.prompt = prompt;
+        self
+    }
     pub async fn generate<C: Config>(self, client: &mut Client<C>) -> AiResult<Poem> {
         let prompt = if !self.prompt.trim().is_empty() {
             self.prompt
