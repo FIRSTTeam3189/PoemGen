@@ -17,13 +17,13 @@ impl PoemGenBuilder {
         Self {
             prompt: String::new(),
             poem_type: None,
-            first_stage_ai: AiType::GPT4oMini,
-            poem_ai: AiType::GPT4o,
-            title_ai: AiType::GPT4oMini,
+            first_stage_ai: AiType::GPT3_5_instruct,
+            poem_ai: AiType::GPT3_5_instruct,
+            title_ai: AiType::GPT3_5_instruct,
         }
     }
     pub async fn generate<C: Config>(self, client: &mut Client<C>) -> AiResult<Poem> {
-        let prompt = if self.prompt.trim().is_empty() {
+        let prompt = if !self.prompt.trim().is_empty() {
             self.prompt
         } else {
             get_poem_prompt()
@@ -71,10 +71,10 @@ impl PoemGenBuilder {
 pub fn get_poem_prompt() -> String {
     let selector: u8 = rand::random();
     match selector % 4 {
-     0 => format!("for a poem about robots that compete with other robots"),
-     1 => format!("for poem about students engineering a robot for team-based competitive game"),
-     2 => format!("about young adults learning engineering through adversity by competing in team-based competitive robot games"),
-     _ => format!("pertaining to the themes self-education, science, robotics and friendly competition"),
+     0 => format!("for a poem about robots"),
+     1 => format!("for poem about students engineering building a robot for team-based competitive game"),
+     2 => format!("about robots playing competitive games together"),
+     _ => format!("pertaining to the themes education, science, robotics and friendly competition"),
     }
 }
 
@@ -128,9 +128,9 @@ impl PoemType {
             3 => PoemType::Concrete,
             4 => PoemType::Elegy,
             5 => PoemType::Epigram,
-            6 => PoemType::Ballad,
-            7 => PoemType::DrSeuss,
-            8 => PoemType::Ode,
+            // 6 => PoemType::Ballad,
+            6 => PoemType::DrSeuss,
+            7 => PoemType::Ode,
             _ => PoemType::FreeVerse,
             // 0 => PoemType::Haiku,
             // 0 => PoemType::Limerick,

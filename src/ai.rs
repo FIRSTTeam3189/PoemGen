@@ -14,6 +14,7 @@ pub enum AiType {
     GPT4oMini,
     GPT4o,
     GPT3_5,
+    GPT3_5_instruct,
 }
 
 impl Display for AiType {
@@ -22,6 +23,7 @@ impl Display for AiType {
             f,
             "{}",
             match self {
+                AiType::GPT3_5_instruct => "gpt-3.5-turbo-instruct",
                 AiType::GPT4oMini => "gpt-4o-mini",
                 AiType::GPT4o => "gpt-4o",
                 AiType::GPT3_5 => "gpt-3.5-turbo-0125",
@@ -42,7 +44,7 @@ impl AiSettings {
     pub fn new_poem(model: AiType) -> Self {
         Self {
             model,
-            max_tokens: 2048,
+            max_tokens: 128,
             n: 1,
             temperature: 0.969,
         }
@@ -51,7 +53,7 @@ impl AiSettings {
     pub fn new_title(model: AiType) -> Self {
         Self {
             model,
-            max_tokens: 80,
+            max_tokens: 32,
             n: 1,
             temperature: 0.769,
         }
@@ -60,7 +62,7 @@ impl AiSettings {
     pub fn new_prompt(model: AiType) -> Self {
         Self {
             model,
-            max_tokens: 128,
+            max_tokens: 64,
             n: 1,
             temperature: 0.769,
         }
@@ -83,6 +85,10 @@ pub async fn get_ai_response<C: Config>(
     };
     println!("1");
     let thing = client.completions().create(completion_request).await?;
+    let mut out = String::new();
+    for l in thing.choices {
+        out.push_str(&l.text);
+    }
 
     // let mut stream = Completion::create_stream(client, completion_request).await?;
     // let mut full_text = String::new();
@@ -96,7 +102,7 @@ pub async fn get_ai_response<C: Config>(
     //     }
     // }
     println!("2");
-    Ok(thing.object)
+    Ok(out)
 }
 
 pub async fn save_to_file(
