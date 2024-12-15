@@ -17,9 +17,9 @@ impl PoemGenBuilder {
         Self {
             prompt: String::new(),
             poem_type: None,
-            first_stage_ai: AiType::GPT3_5_instruct,
-            poem_ai: AiType::GPT3_5_instruct,
-            title_ai: AiType::GPT3_5_instruct,
+            first_stage_ai: AiType::GPT3_5_Instruct,
+            poem_ai: AiType::GPT3_5_Instruct,
+            title_ai: AiType::GPT3_5_Instruct,
         }
     }
     pub fn set_prompt(&mut self, prompt: String) {
