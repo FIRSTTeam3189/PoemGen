@@ -83,25 +83,12 @@ pub async fn get_ai_response<C: Config>(
         stream: Some(false),
         ..Default::default()
     };
-    println!("1");
     let thing = client.completions().create(completion_request).await?;
     let mut out = String::new();
     for l in thing.choices {
         out.push_str(&l.text);
     }
 
-    // let mut stream = Completion::create_stream(client, completion_request).await?;
-    // let mut full_text = String::new();
-
-    // while let Some(response) = stream.next().await {
-    //     match response {
-    //         Ok(ccr) => ccr.choices.iter().for_each(|c| {
-    //             full_text.push_str(c.text.as_str());
-    //         }),
-    //         Err(e) => eprintln!("{}", e),
-    //     }
-    // }
-    println!("2");
     Ok(out)
 }
 
