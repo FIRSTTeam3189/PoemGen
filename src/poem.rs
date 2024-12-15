@@ -56,16 +56,14 @@ impl PoemGenBuilder {
         let title_prompt = format!("Write a title for a {ty} about:\n{full_prompt}");
         // generate title
         let title = get_ai_response(&title_prompt, AiSettings::new_title(self.title_ai), &client)
-            .await?.trim().to_owned();
+            .await?
+            .trim()
+            .to_owned();
         // generate poem.
-        let poem = get_ai_response(
-            &second_stage,
-            AiSettings::new_poem(self.poem_ai),
-            &client,
-        )
-        .await?
-        .trim()
-        .to_string();
+        let poem = get_ai_response(&second_stage, AiSettings::new_poem(self.poem_ai), &client)
+            .await?
+            .trim()
+            .to_string();
         Ok(Poem {
             poem_type: ty,
             first_stage,
@@ -79,10 +77,14 @@ impl PoemGenBuilder {
 pub fn get_poem_prompt() -> String {
     let selector: u8 = rand::random();
     match selector % 4 {
-     0 => format!("for a poem about robots"),
-     1 => format!("for poem about students engineering building a robot for team-based competitive game"),
-     2 => format!("about robots playing competitive games together"),
-     _ => format!("pertaining to the themes education, science, robotics and friendly competition"),
+        0 => format!("for a poem about robots"),
+        1 => format!(
+            "for poem about students engineering building a robot for team-based competitive game"
+        ),
+        2 => format!("about robots playing competitive games together"),
+        _ => format!(
+            "pertaining to the themes education, science, robotics and friendly competition"
+        ),
     }
 }
 

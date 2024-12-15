@@ -1,7 +1,8 @@
 use async_openai::config::Config;
 use async_openai::error::OpenAIError;
 use async_openai::types::{
-    CreateCompletionRequest, CreateImageRequest, ImageResponseFormat, ImageSize, ImagesResponse, Prompt
+    CreateCompletionRequest, CreateImageRequest, ImageResponseFormat, ImageSize, ImagesResponse,
+    Prompt,
 };
 use async_openai::Client;
 use std::fmt::{Display, Formatter};
@@ -107,7 +108,10 @@ pub async fn save_to_file(
     std::fs::create_dir_all("./poem")?;
 
     // Replace bad filename characters
-    let filename = title.to_ascii_lowercase().replace(['"', ':', ',', '?', '/', '\'', '\n'], "").replace(" ", "-");
+    let filename = title
+        .to_ascii_lowercase()
+        .replace(['"', ':', ',', '?', '/', '\'', '\n'], "")
+        .replace(" ", "-");
 
     // replace spaces with -
     let poem_name = filename.split_whitespace().collect::<Vec<&str>>().join("-");
